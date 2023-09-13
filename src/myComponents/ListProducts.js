@@ -65,7 +65,7 @@ export default function ListProducts() {
                         products.map(product => (
                             <tr key={product.productId}>
                                 <td>{product.productId}</td>
-                                <td><img src={product.productImage}  alt="" /></td>
+                                <td><img src={product.productImage}  alt="we will add soon" /></td>
                                 <td>{product.productName}</td>
                                 <td>{product.productDesc}</td>
                                 <td>{product.productPrice}</td>
