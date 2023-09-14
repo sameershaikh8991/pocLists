@@ -1,0 +1,35 @@
+
+
+<div>
+  <h2 class="text-center">Product list</h2>
+</div>
+
+<button type="button" class="btn btn-primary"><a routerLink="add-product" routerLinkActive="active"> Add product</a></button>
+
+<div class="container">
+<table class="table border" >
+    <thead>
+      <tr>
+        <th scope="col">Product Image</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Product Desc</th>
+        <th scope="col">Product price</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <th > <img src={{product.productImage}} alt=""></th>
+        <th >{{product.productName}}</th>
+        <th >{{product.productDesc}}</th>
+        <th >{{product.productPrice}}</th>
+        <th >
+          <button (click)="updateProduct(product.productId)" class="btn btn-success">Update</button>
+          <button (click)="deleteProduct(product.productId)" class="btn btn-danger">delete</button>
+        </th>
+      </tr>
+    
+    </tbody>
+  </table>
+
+</div>

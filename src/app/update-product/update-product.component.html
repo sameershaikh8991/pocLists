@@ -1,0 +1,58 @@
+
+<div class="col-md-6 offset-md-3">
+    <div class="container ">
+
+        <h2 class="text-center">Update product</h2>
+        <form (ngSubmit) = "update()">
+            <label for="pname">product name:</label>
+            <div class="form-group">
+                <label htmlFor="productName">Product Name</label>
+                <input type="text"
+                 class="form-control" 
+                 id="productName" 
+                 placeholder="Enter product name"
+                 name="productName"
+                 [(ngModel)] = "product.productName"
+                 required />
+            </div>
+          
+
+            <div class="form-group">
+                <label htmlFor="productDesc">Product Desc</label>
+                <input type="text" 
+                class="form-control" 
+                id="productDesc" 
+                placeholder="product Desc" 
+                name="productDesc"
+                [(ngModel)] = "product.productDesc"
+                 />
+            </div>
+
+            <div class="form-group">
+                <label htmlFor="productPrice">Product price</label>
+                <input type="number" 
+                class="form-control" 
+                id="productPrice" 
+                placeholder="product price" 
+                name="productPrice"
+                [(ngModel)] = "product.productPrice"
+                required />
+            </div>
+
+            <div class="form-group">
+                <label htmlFor="productPrice">Product image url</label>
+                <input type="text" 
+                class="form-control" 
+                id="productImage" 
+                placeholder="product Image" 
+                name="productImage"
+                [(ngModel)] = "product.productImage"
+                required/>
+            </div>
+
+            <button type="submit" class="btn btn-primary" >Submit</button>
+        </form>
+    </div>
+
+    
+</div>

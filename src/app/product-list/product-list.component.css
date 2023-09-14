@@ -1,0 +1,10 @@
+img, svg {
+    vertical-align: middle;
+    width: 200px;
+    height: 150px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
