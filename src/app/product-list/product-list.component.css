@@ -1,0 +1,13 @@
+img, svg {
+    vertical-align: middle;
+    width: 200px;
+    height: 150px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+button.btn.btn-danger {
+    margin-left: 40px;
+}
