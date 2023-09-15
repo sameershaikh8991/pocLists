@@ -1,6 +1,24 @@
 <header>
-    <h1>Product Point</h1>
+    <section class="navigation">
+        <div class="nav-container">
+          <div class="brand">
+            <a href="#!">Product Zone</a>
+          </div>
+          <nav>
+            <div class="nav-mobile"><a id="navbar-toggle" href="#!"><span></span></a></div>
+            <ul class="nav-list">
+              <li>
+                <a href="/">Home</a>
+              </li>
+              <li>
+                <a routerLink="add-product" routerLinkActive="active">Add Product</a>
+              </li>
+              <li>
+                <a href="#!">about</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </section>
 </header>
-<!-- <app-product-list /> -->
-
 <router-outlet></router-outlet>
