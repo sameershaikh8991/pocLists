@@ -3,26 +3,26 @@
     <div class="container ">
 
         <h2 class="text-center">Update product</h2>
-        <form (ngSubmit) = "update()">
-            <label for="pname">product name:</label>
+        <form (ngSubmit) = "update()" [formGroup]="updateProduct">
             <div class="form-group">
                 <label htmlFor="productName">Product Name</label>
                 <input type="text"
                  class="form-control" 
                  id="productName" 
                  placeholder="Enter product name"
+                 formControlName="productName"
                  name="productName"
                  [(ngModel)] = "product.productName"
                  required />
             </div>
           
-
             <div class="form-group">
-                <label htmlFor="productDesc">Product Desc</label>
+                <label htmlFor="productDesc">Product Description</label>
                 <input type="text" 
                 class="form-control" 
                 id="productDesc" 
                 placeholder="product Desc" 
+                formControlName="productDesc"
                 name="productDesc"
                 [(ngModel)] = "product.productDesc"
                  />
@@ -33,22 +33,23 @@
                 <input type="number" 
                 class="form-control" 
                 id="productPrice" 
-                placeholder="product price" 
+                placeholder="product price"
+                formControlName="productPrice"
                 name="productPrice"
                 [(ngModel)] = "product.productPrice"
                 required />
             </div>
 
-            <!-- <div class="form-group">
-                <label htmlFor="productPrice">Product image url</label>
-                <input type="text" 
-                class="form-control" 
-                id="productImage" 
-                placeholder="product Image" 
-                name="productImage"
-                [(ngModel)] = "product.productImage"
-                required/>
-            </div> -->
+            <div class="form-group">
+                <label htmlFor="productPrice">Product current image </label>
+                <img [src]="'data:image/jpeg;base64,' + product.image" alt="">
+            </div>
+
+            <div class="form-group">
+                <label for="pImage">Product Image</label>
+                <br>
+                <input type="file" class="form-control-file" id="file" name="file" (change)="onFileSelected($event)" required>
+              </div>
 
             <button type="submit" class="btn btn-primary" >Submit</button>
         </form>

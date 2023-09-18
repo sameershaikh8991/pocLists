@@ -26,7 +26,7 @@ export class ProductListComponent implements OnInit {
   
   this.productService.getProductList().subscribe( data =>{
     this.products =data;
-    console.log("products",this.products.values);
+    console.log("products",this.products);
   })
   }
 
@@ -44,16 +44,12 @@ export class ProductListComponent implements OnInit {
       return ""; // Handle the error as needed
     }
 
-    console.log(blob);
+    // console.log(blob);
 
   }
 
 
-  sanitizeImage(imageData: Blob): SafeUrl {
-   
-    const objectURL = URL.createObjectURL(imageData);
-    return this['sanitizer'].bypassSecurityTrustUrl(objectURL);
-  }
+
 
   deleteProduct(id:number){
     this.productService.delete(id).subscribe( data =>{

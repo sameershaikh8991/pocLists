@@ -40,8 +40,21 @@ export class ProductService {
     return this.httpClient.get<Product>(`${this.baseUrl}/${id}`);
   }
 
-  updateProduct(id:number,product:Product):Observable<Product>{
-    return this.httpClient.put<Product>(`${this.baseUrl}/${id}`,product);
+  updateProduct(file: File,
+    productName: string,
+    productDesc: string,
+    productPrice: number,
+    productId:number):Observable<Product>{
+
+      const formData: FormData = new FormData();
+    formData.append('file', file); // Append the file with the name 'file'
+    formData.append('productName', productName);
+    formData.append('productDesc', productDesc);
+    formData.append('productPrice', String(productPrice)); 
+
+    console.log("data :",formData);
+
+    return this.httpClient.put<Product>(`${this.baseUrl}/${productId}`,formData);
   }
   delete(id:number):Observable<string>{
     return this.httpClient.delete<string>(`${this.baseUrl}/${id}`,{ responseType: 'text' as 'json' });

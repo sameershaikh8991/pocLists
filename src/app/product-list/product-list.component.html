@@ -21,7 +21,7 @@
       <tr *ngFor="let product of products" class="text-center"> 
 
         
-        <th > <img [src]="'data:image/jpeg;base64,' + product.file" alt=""></th>
+        <th > <img [src]="'data:image/jpeg;base64,' + product.image" alt=""></th>
         <th >{{product.productName}}</th>
         <th >{{product.productDesc}}</th>
         <th >Rs.{{product.productPrice}}</th>

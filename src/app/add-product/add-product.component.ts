@@ -32,10 +32,9 @@ export class AddProductComponent  implements OnInit{
 
   saveProduct() {
     if (this.addProduct.valid) {
-
-
     
-      this.productService.addProduct( this.fileSelected,
+      this.productService.addProduct( 
+        this.fileSelected,
         this.addProduct.get('productName')?.value,
         this.addProduct.get('productDesc')?.value,
         this.addProduct.get('productPrice')?.value).subscribe(
@@ -61,18 +60,11 @@ export class AddProductComponent  implements OnInit{
 
 
   onFileSelected(event: any) {
-    // if (event.target.files && event.target.files.length > 0) {
-    //   const file = event.target.files[0];
-    //   console.log(file);
-    //   this.product.file = file
-    // }
 
     this.fileSelected = event.target.files[0];
   }
 
-  // onFileChange(event: any) {
-  //   this.onFileSelected = event.target.files[0];
-  // }
+
 
   ngOnInit(): void {
     

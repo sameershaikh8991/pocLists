@@ -5,5 +5,5 @@ export class Product {
     productName: string  | undefined;
     productDesc: string  | undefined;
     productPrice: string | undefined;
-    file !: Blob;
+    image !: Blob;
 }
