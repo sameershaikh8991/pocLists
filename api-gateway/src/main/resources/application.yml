@@ -14,16 +14,22 @@ spring:
           uri: lb://USER-SERVICE
           predicates:
             - Path=/users/**
+          filters:
+            - AuthenticationFilter
 
         - id: RATING-SERVICE
           uri: lb://RATING-SERVICE
           predicates:
             - Path=/rating/**
+          filters:
+            - AuthenticationFilter=1
 
         - id: HOTEL-SERVICE
           uri: lb://HOTEL-SERVICE
           predicates:
             - Path=/hotel/**
+          filters:
+            - AuthenticationFilter=1
 
         - id: AUTH-SERVICE
           uri: lb://AUTH-SERVICE
@@ -37,3 +43,8 @@ eureka:
     service-url:
       defaultZone: http://localhost:9094/eureka
 
+
+
+user:
+  app:
+    jwtSecret: wcVoYHql7Bdz416aEkePjTqyRJLZBDSkK8s3EgZCVdDdmOM7beUKNxdI8JpatVnr2amtwIhxHWtk0pB7Vtx0Yluic0n7j3e8gJBoH97wqmro0HGg6iQruvgOqxn45HfV0OCIB86SlxGImejl7zHozN3lovxdh0
