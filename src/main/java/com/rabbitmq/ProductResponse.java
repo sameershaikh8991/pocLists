@@ -1,6 +1,7 @@
 package com.rabbitmq;
 
 
+import com.rabbitmq.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.rabbitmq;
+package com.rabbitmq.model;
 
 
 import lombok.AllArgsConstructor;
