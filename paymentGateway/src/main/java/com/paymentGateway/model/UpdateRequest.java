@@ -1,17 +1,16 @@
 package com.paymentGateway.model;
 
-
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class OrderRequest {
-    private Long productId;
-    private int quantity;
-    private BigDecimal amount;
+@Builder
+public class UpdateRequest {
+    private String paymentId;
+    private String orderId;
+    private String status;
 }

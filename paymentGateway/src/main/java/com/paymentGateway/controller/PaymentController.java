@@ -1,19 +1,19 @@
 package com.paymentGateway.controller;
 
-import com.paymentGateway.model.Order;
-import com.paymentGateway.model.OrderRequest;
-import com.paymentGateway.model.Product;
+import com.paymentGateway.model.*;
+import com.paymentGateway.repo.OrderDetailsRepo;
 import com.paymentGateway.repo.OrderRepository;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
+import com.razorpay.Refund;
+import jakarta.websocket.server.PathParam;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/payments")
@@ -23,55 +23,50 @@ public class PaymentController {
     @Value("${razorpay.api.key.id}")
     private String razorpayApiKey;
 
-
     @Value("${razorpay.api.secret.key}")
     private String razorpayApiSecretKey;
 
+
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderDetailsRepo orderDetailsRepo;
 
     @PostMapping("/create-payment")
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+    public ResponseEntity<OrderDetails> createOrder(@RequestBody OrderRequest orderRequest) {
 
-        Product product =  new Product();
-        product.setId(2L);
-        product.setName("product 1");
-        product.setPrice(1);
 
-        double totalAmount = product.getPrice() * order.getQuantity();
 
+        BigDecimal totalAmount = orderRequest.getAmount();
         try {
-            RazorpayClient razorpayClient = new RazorpayClient(razorpayApiKey, razorpayApiSecretKey);
 
+            RazorpayClient razorpayClient = new RazorpayClient(razorpayApiKey, razorpayApiSecretKey);
             JSONObject options = new JSONObject();
-            options.put("amount", totalAmount * 100);
+            options.put("amount", totalAmount.multiply(BigDecimal.valueOf(100)));
             options.put("currency", "INR");
             options.put("receipt", "order_receipt_12345");
 
             com.razorpay.Order razorpayOrder = razorpayClient.orders.create(options);
 
+            System.out.println(razorpayOrder.get("id").toString());
             String razorpayOrderId = razorpayOrder.get("id");
 
-            order.setProductId(product.getId());
-            order.setRazorpayOrderId(razorpayOrderId);
-            order.setTotalAmount(totalAmount);
-            order.setPaymentStatus(razorpayOrder.get("status"));
-            order.setLocalDateTime(LocalDateTime.now());
+            OrderDetails orderDetails =  new OrderDetails();
+            orderDetails.setAmount(razorpayOrder.get("amount"));
+            orderDetails.setOrderId(razorpayOrderId);
+            orderDetails.setStatus(razorpayOrder.get("status"));
+//            orderDetailsRepo.save(orderDetails);
+            System.out.println("order : " + orderDetails);
 
-            Order savedOrder = orderRepository.save(order);
-
-            return ResponseEntity.ok(savedOrder);
+            return ResponseEntity.ok(orderDetails);
         } catch (RazorpayException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.internalServerError().build();
         }
     }
 
-
     @PostMapping("/make-payment")
-    public ResponseEntity<Order> createOrders(@RequestBody OrderRequest orderRequest) {
+    public ResponseEntity<OrderDetails> createOrders(@RequestBody OrderRequest orderRequest) {
 
-        Product product =  new Product();
-        product.setId(2L);
+        Product product = new Product();
+        product.setId(2);
         product.setName("product 1");
         product.setPrice(1);
 
@@ -90,18 +85,50 @@ public class PaymentController {
             System.out.println(razorpayOrder.get("id").toString());
             String razorpayOrderId = razorpayOrder.get("id");
 
-            Order order = new Order();
-            order.setTotalAmount(totalAmount);
-            order.setQuantity(orderRequest.getQuantity());
-            order.setRazorpayOrderId(razorpayOrderId);
-            order.setPaymentStatus(razorpayOrder.get("status"));
+            OrderDetails orderDetails =  new OrderDetails();
+            orderDetails.setAmount(razorpayOrder.get("amount"));
+            orderDetails.setOrderId(razorpayOrderId);
+            orderDetails.setStatus(razorpayOrder.get("status"));
+            System.out.println("order : " + orderDetails);
 
-            System.out.println("order : "+order);
+//            orderDetailsRepo.save(orderDetails);
 
-            return ResponseEntity.ok(order);
+            return ResponseEntity.ok(orderDetails);
         } catch (RazorpayException e) {
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+
+    @PostMapping("/refund-amount")
+    public ResponseEntity<Refund> makeRefund(@PathParam("paymentId") String paymentId) throws RazorpayException {
+        RazorpayClient razorpay = new RazorpayClient(razorpayApiKey, razorpayApiSecretKey);
+
+        JSONObject refundRequest = new JSONObject();
+        refundRequest.put("speed", "instant");
+        JSONObject notes = new JSONObject();
+        notes.put("notes_key_1", "Tea, Earl Grey, Hot");
+        refundRequest.put("notes", notes);
+
+        Refund refund = razorpay.payments.refund(paymentId, null);
+        return ResponseEntity.ok(refund);
+    }
+
+
+    @PutMapping("/update")
+    public ResponseEntity<String> updateStatus(@RequestBody UpdateRequest updateRequest){
+        OrderDetails orderDetails = orderDetailsRepo.findByOrderId(updateRequest.getOrderId());
+
+        if(orderDetails==null){
+            throw new RuntimeException("payment details not found");
+        }
+
+        orderDetails.setPaymentId(updateRequest.getPaymentId());
+        orderDetails.setStatus(updateRequest.getStatus());
+        orderDetailsRepo.save(orderDetails);
+
+        return ResponseEntity.ok("done");
+
     }
 
 }
