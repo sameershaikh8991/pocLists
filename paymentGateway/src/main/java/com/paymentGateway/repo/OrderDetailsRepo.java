@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface OrderDetailsRepo extends JpaRepository<OrderDetails,Integer> {
 
     OrderDetails findByOrderId(String orderId);
+    OrderDetails findByPaymentId(String paymentId);
 }

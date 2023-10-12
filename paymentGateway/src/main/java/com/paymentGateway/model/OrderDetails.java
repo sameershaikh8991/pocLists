@@ -25,6 +25,6 @@ public class OrderDetails {
     private String orderId;
     private String paymentId;
     private String status;
-    private Integer amount;
+    private BigDecimal amount;
 
 }
