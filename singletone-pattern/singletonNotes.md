@@ -12,3 +12,35 @@ The government is an excellent example of the Singleton pattern. A country can h
 ![Alt text](image.png)
 
 ![Alt text](image-1.png)
+
+
+** In multithreding Env
+```
+import java.io.Serializable;
+
+public class SerializedSingleton implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private static SerializedSingleton instance;
+
+    private SerializedSingleton() {
+
+    }
+
+    public static SerializedSingleton getInstance() {
+        if (instance == null) {
+            synchronized (SerializedSingleton.class) {
+                if (instance == null) {
+                    instance = new SerializedSingleton();
+                }
+            }
+        }
+        return instance;
+    }
+
+    protected Object readResolve() {
+
+        return getInstance();
+    }
+}
+
+```

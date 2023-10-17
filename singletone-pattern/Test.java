@@ -22,5 +22,10 @@ public class Test {
 
         Singletone singleton1 = (Singletone) constructor.newInstance();
         System.out.println("hash code :" + singleton1.hashCode());
+
+        // SingletonEnum singleton = SingletonEnum.INSTANCE;
+
+        // singleton.setValue(2);
+        // System.out.println(singleton.getValue());
     }
 }

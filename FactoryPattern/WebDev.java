@@ -6,5 +6,5 @@ public class WebDev implements Employee {
     public int getSalary() {
         return 40000;
     }
-    
+
 }

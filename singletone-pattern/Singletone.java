@@ -4,6 +4,10 @@ public class Singletone {
 
     private Singletone() {
 
+        // Private constructor to prevent instantiation
+        // if (singletone != null) {
+        //     throw new IllegalStateException("Singleton instance already created.");
+        // }
     }
 
     public static Singletone getSingleton() {
