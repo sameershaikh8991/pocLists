@@ -15,7 +15,6 @@ public class OrderController {
     @Autowired
     private KafkaTemplate<String, OrderEvent> kafkaTemplate;
 
-
     @PostMapping("/orders")
     public void createOrder(@RequestBody OrderRequest customerOrder) {
         Order order = new Order();

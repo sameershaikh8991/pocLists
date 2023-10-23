@@ -31,10 +31,7 @@ public class InventoryController {
         OrderRequest order = p.getOrder();
 
         try {
-
-            // update stock in database
             Iterable<Inventory> inventories = this.repository.findByItem(order.getItem());
-
             boolean exists = inventories.iterator().hasNext();
 
             if (!exists)
@@ -53,7 +50,6 @@ public class InventoryController {
 
         } catch (Exception e) {
 
-            // reverse previous task
             PaymentEvent pe = new PaymentEvent();
             pe.setOrder(order);
             pe.setType("PAYMENT_REVERSED");

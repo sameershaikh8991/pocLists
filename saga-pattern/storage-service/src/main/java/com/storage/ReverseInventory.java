@@ -15,7 +15,7 @@ public class ReverseInventory {
     @Autowired
     private KafkaTemplate<String, PaymentEvent> kafkaTemplate;
 
-    @KafkaListener(topics = "reversed-inventory", groupId = "inventory-group")
+    @KafkaListener(topics = "inventory", groupId = "inventory-group")
     public void reverseInventory(String event) {
 
         try {
