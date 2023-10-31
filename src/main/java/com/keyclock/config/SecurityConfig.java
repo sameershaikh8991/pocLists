@@ -1,6 +1,7 @@
 package com.keyclock.config;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -13,19 +14,25 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final AuthConverter authConverter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
-                .authorizeHttpRequests()
-                .anyRequest()
-                .authenticated();
+        http.csrf(csrf -> csrf.disable())
+                .cors(cros -> cros.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("api/v1/add").permitAll()
+
+                        .anyRequest().authenticated()
+                );
 
         http
                 .oauth2ResourceServer()
-                .jwt();
+                .jwt()
+                .jwtAuthenticationConverter(authConverter);
 
         http
                 .sessionManagement()

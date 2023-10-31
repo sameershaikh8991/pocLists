@@ -3,8 +3,13 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/master
+          issuer-uri: http://localhost:8080/realms/sample
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
-
 server:
-  port: 8081
+  port: 8083
+
+jwt:
+  auth:
+    converter:
+      resource-id: sample-api
+      principle-attribute: preferred_username
